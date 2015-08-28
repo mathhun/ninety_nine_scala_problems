@@ -1,5 +1,5 @@
 import org.scalatest._
-import Main._
+import problem.Main._
 
 class P01Spec extends FlatSpec with Matchers {
   "last" should "find the last element of a list" in {
