@@ -7,6 +7,6 @@ res0: Int = 8
 
 object P01 {
   def last[A](list: List[A]): A = {
-    list.takeRight(2).head
+    list.last
   }
 }
