@@ -24,3 +24,9 @@ class P04Spec extends FlatSpec with Matchers {
     problem.Main.length(List(1, 1, 2, 3, 5, 8)) should be (6)
   }
 }
+
+class P05Spec extends FlatSpec with Matchers {
+  "reverse" should "reverse a list" in {
+    reverse(List(1, 1, 2, 3, 5, 8)) should be (List(8, 5, 3, 2, 1, 1))
+  }
+}

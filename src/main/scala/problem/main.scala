@@ -23,7 +23,7 @@ object Main {
    // scala> nth(2, List(1, 1, 2, 3, 5, 8))
    // res0: Int = 2
   def nth[A](n: Int, list: List[A]): A = {
-    list.take(n + 1).last
+    list(n)
   }
 
   // P04 (*) Find the number of elements of a list.
@@ -33,4 +33,11 @@ object Main {
   def length[A](list: List[A]): Int = {
     list.length
   }
+
+  // P05 (*) Reverse a list.
+  // Example:
+  // scala> reverse(List(1, 1, 2, 3, 5, 8))
+  // res0: List[Int] = List(8, 5, 3, 2, 1, 1)
+  def reverse[A](list: List[A]): List[A] =
+    list.reverse
 }
