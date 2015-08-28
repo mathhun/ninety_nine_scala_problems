@@ -37,3 +37,10 @@ class P06Spec extends FlatSpec with Matchers {
     isPalindrome(List(1, 2, 3, 4, 5)) should be (false)
   }
 }
+
+class P07Spec extends FlatSpec with Matchers {
+  "flatten" should "flatten a nested list structure" in {
+    flatten(List(1,2,3)) should be (List(1,2,3))
+    flatten(List(List(1, 1), 2, List(3, List(5, 8)))) should be (List(1, 1, 2, 3, 5, 8))
+  }
+}
