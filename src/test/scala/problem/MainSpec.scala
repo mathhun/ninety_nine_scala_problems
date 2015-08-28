@@ -30,3 +30,10 @@ class P05Spec extends FlatSpec with Matchers {
     reverse(List(1, 1, 2, 3, 5, 8)) should be (List(8, 5, 3, 2, 1, 1))
   }
 }
+
+class P06Spec extends FlatSpec with Matchers {
+  "isPalindrome" should "find out whether a list is a palindrome" in {
+    isPalindrome(List(1, 2, 3, 2, 1)) should be (true)
+    isPalindrome(List(1, 2, 3, 4, 5)) should be (false)
+  }
+}
