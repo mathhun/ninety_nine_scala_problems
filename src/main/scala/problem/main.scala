@@ -48,11 +48,33 @@ object Main {
   // Example:
   // scala> flatten(List(List(1, 1), 2, List(3, List(5, 8))))
   // res0: List[Any] = List(1, 1, 2, 3, 5, 8)
-  def flatten(list: List[Any]): List[Any] = {
-    if (list.isEmpty) Nil
-    else list.head match {
-      case x :: xs => x :: flatten(xs) ++ flatten(list.tail)
-      case x => x +: flatten(list.tail)
+
+  //def flatten(list: List[Any]): List[Any] = {
+  //  if (list.isEmpty) Nil
+  //  else list.head match {
+  //    case x :: xs => x :: flatten(xs) ++ flatten(list.tail)
+  //    case x => x +: flatten(list.tail)
+  //  }
+  //}
+  def flatten(ls: List[Any]): List[Any] = ls flatMap {
+    case ms: List[_] => flatten(ms)
+    case e => List(e)
+  }
+
+  // P08 (**) Eliminate consecutive duplicates of list elements.
+  // If a list contains repeated elements they should be replaced with
+  // a single copy of the element. The order of the elements should
+  // not be changed.
+  // Example:
+  // scala> compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+  // res0: List[Symbol] = List('a, 'b, 'c, 'a, 'd, 'e)
+  def compress[A](list: List[A]): List[A] = {
+    def go[A](ls: List[A], acc: List[A]): List[A] = {
+      if (ls.isEmpty) acc.reverse
+      else if (acc.isEmpty) go(ls.tail, List(ls.head))
+      else if (ls.head == acc.head) go(ls.tail, acc)
+      else go(ls.tail, ls.head :: acc)
     }
+    go(list, Nil)
   }
 }
