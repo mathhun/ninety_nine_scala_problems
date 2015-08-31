@@ -76,3 +76,12 @@ class P11Spec extends FlatSpec with Matchers {
     encodeModified(data) should be (expected)
   }
 }
+
+class P12Spec extends FlatSpec with Matchers {
+  "decode" should "decode a run-length encoded list." in {
+    val data = List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e))
+    val expected = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    decode(data) should be (expected)
+    decode_answer(data) should be (expected)
+  }
+}
