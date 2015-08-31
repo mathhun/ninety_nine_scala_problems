@@ -59,3 +59,20 @@ class P09Spec extends FlatSpec with Matchers {
     pack(xs) should be (ys)
   }
 }
+
+class P10Spec extends FlatSpec with Matchers {
+  "encode" should "run-length encoding of a list" in {
+    val data = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    val expected = List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
+    encode(data) should be (expected)
+    encode_answer(data) should be (expected)
+  }
+}
+
+class P11Spec extends FlatSpec with Matchers {
+  "encodeModified" should "modified run-length encoding." in {
+    val data = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    val expected = List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e))
+    encodeModified(data) should be (expected)
+  }
+}
