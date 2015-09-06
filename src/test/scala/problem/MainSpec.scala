@@ -144,3 +144,13 @@ class P19Spec extends FlatSpec with Matchers {
     rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) should be (List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i))
   }
 }
+
+class P20Spec extends FlatSpec with Matchers {
+  "removeAt" should "remove the Kth element from a list" in {
+    removeAt(1, List('a, 'b, 'c, 'd)) should be (List('a, 'c, 'd), 'b)
+    removeAt(2, List('a, 'b, 'c, 'd)) should be (List('a, 'b, 'd), 'c)
+
+    removeAt_answer(1, List('a, 'b, 'c, 'd)) should be (List('a, 'c, 'd), 'b)
+    removeAt_answer(2, List('a, 'b, 'c, 'd)) should be (List('a, 'b, 'd), 'c)
+  }
+}

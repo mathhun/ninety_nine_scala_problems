@@ -252,4 +252,19 @@ object Main {
     if (n > 0) ls.drop(n) ++ ls.take(n)
     else ls.takeRight(-n) ++ ls.dropRight(-n)
   }
+
+  // P20 (*) Remove the Kth element from a list.
+  // Return the list and the removed element in a Tuple. Elements are numbered from 0.
+  // Example:
+  // scala> removeAt(1, List('a, 'b, 'c, 'd))
+  // res0: (List[Symbol], Symbol) = (List('a, 'c, 'd),'b)
+  def removeAt[A](n: Int, ls: List[A]): (List[A], A) = {
+    (ls.take(n) ++ ls.drop(n + 1), ls(n))
+  }
+
+  def removeAt_answer[A](n: Int, ls: List[A]): (List[A], A) = ls.splitAt(n) match {
+    case (Nil, _) if n < 0 => throw new NoSuchElementException
+    case (pre, e :: post)  => (pre ::: post, e)
+    case (pre, Nil)        => throw new NoSuchElementException
+  }
 }
