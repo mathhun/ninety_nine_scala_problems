@@ -85,3 +85,11 @@ class P12Spec extends FlatSpec with Matchers {
     decode_answer(data) should be (expected)
   }
 }
+
+class P13Spec extends FlatSpec with Matchers {
+  "decodeDirect" should "run-length encoding of a list (direct solution)" in {
+    val data = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    val expected = List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
+    encodeDirect(data) should be (expected)
+  }
+}
