@@ -93,3 +93,17 @@ class P13Spec extends FlatSpec with Matchers {
     encodeDirect(data) should be (expected)
   }
 }
+
+class P14Spec extends FlatSpec with Matchers {
+  "duplicate" should "duplicate the elements of a list" in {
+    val expected = List('a, 'a, 'b, 'b, 'c, 'c, 'c, 'c, 'd, 'd)
+    duplicate(List('a, 'b, 'c, 'c, 'd)) should be (expected)
+  }
+}
+
+class P15Spec extends FlatSpec with Matchers {
+  "duplicateN" should "duplicate the elements of a list a given number of times" in {
+    val expected = List('a, 'a, 'a, 'b, 'b, 'b, 'c, 'c, 'c, 'c, 'c, 'c, 'd, 'd, 'd)
+    duplicateN(3, List('a, 'b, 'c, 'c, 'd)) should be (expected)
+  }
+}
