@@ -217,4 +217,39 @@ object Main {
 
   def dropFunctional[A](n: Int, ls: List[A]): List[A] =
     ls.zipWithIndex filter { v => (v._2 + 1) % n != 0 } map { _._1 }
+
+  // P17 (*) Split a list into two parts.
+  // The length of the first part is given. Use a Tuple for your result.
+  // Example:
+  // scala> split(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+  // res0: (List[Symbol], List[Symbol]) = (List('a, 'b, 'c),List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+  def split[A](n: Int, ls: List[A]): (List[A], List[A]) = {
+    (ls.take(n), ls.drop(n))
+  }
+
+  // P18 (**) Extract a slice from a list.
+  // Given two indices, I and K, the slice is the list containing the
+  // elements from and including the Ith element up to but not
+  // including the Kth element of the original list. Start counting
+  // the elements with 0.  Example:
+  // scala> slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+  // res0: List[Symbol] = List('d, 'e, 'f, 'g)
+  def slice[A](s: Int, e: Int, ls: List[A]): List[A] = {
+    ls.take(e).drop(s)
+  }
+
+  def sliceBuiltin[A](s: Int, e: Int, ls: List[A]): List[A] = {
+    ls.slice(s, e)
+  }
+
+  // P19 (**) Rotate a list N places to the left.
+  // Examples:
+  // scala> rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+  // res0: List[Symbol] = List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k, 'a, 'b, 'c)
+  // scala> rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+  // res1: List[Symbol] = List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i)
+  def rotate[A](n: Int, ls: List[A]): List[A] = {
+    if (n > 0) ls.drop(n) ++ ls.take(n)
+    else ls.takeRight(-n) ++ ls.dropRight(-n)
+  }
 }

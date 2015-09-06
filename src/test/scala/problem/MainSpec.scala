@@ -119,3 +119,28 @@ class P16Spec extends FlatSpec with Matchers {
     dropFunctional(3, data) should be (expected)
   }
 }
+
+class P17Spec extends FlatSpec with Matchers {
+  "split" should "split a list into two parts" in {
+    val data = List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)
+    val expected = (List('a, 'b, 'c), List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+    split(3, data) should be (expected)
+  }
+}
+
+class P18Spec extends FlatSpec with Matchers {
+  "slice" should "extract a slice from a list" in {
+    val data = List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)
+    val expected = List('d, 'e, 'f, 'g)
+
+    slice(3, 7, data) should be (expected)
+    sliceBuiltin(3, 7, data) should be (expected)
+  }
+}
+
+class P19Spec extends FlatSpec with Matchers {
+  "rotate" should "rotate a list N places to the left" in {
+    rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) should be (List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k, 'a, 'b, 'c))
+    rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) should be (List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i))
+  }
+}
