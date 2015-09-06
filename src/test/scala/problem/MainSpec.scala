@@ -107,3 +107,15 @@ class P15Spec extends FlatSpec with Matchers {
     duplicateN(3, List('a, 'b, 'c, 'c, 'd)) should be (expected)
   }
 }
+
+class P16Spec extends FlatSpec with Matchers {
+  "drop" should "drop every Nth element from a list" in {
+    val data = List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)
+    val expected = List('a, 'b, 'd, 'e, 'g, 'h, 'j, 'k)
+
+    problem.Main.drop(3, data) should be (expected)
+    dropRecursive(3, data) should be (expected)
+    dropTailRecursive(3, data) should be (expected)
+    dropFunctional(3, data) should be (expected)
+  }
+}
