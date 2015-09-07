@@ -181,7 +181,7 @@ class P23Spec extends FlatSpec with Matchers {
 class P24Spec extends FlatSpec with Matchers {
   "randomSelect" should "extract a given number of randomly selected elements from a list" in {
     val r = lotto(6, 49)
-    //should be (List(23, 1, 17, 33, 21, 37))
+
     r.length should be (6)
     r foreach { e =>
       e should be >= 1
@@ -196,6 +196,7 @@ class P25Spec extends FlatSpec with Matchers {
     val r = randomPermute(data)
 
     r.length should be (data.length)
+    r should not be (data)
     r.sortBy(_.toString) should be (data.sortBy(_.toString))
   }
 }
