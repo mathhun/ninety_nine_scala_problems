@@ -189,3 +189,13 @@ class P24Spec extends FlatSpec with Matchers {
     }
   }
 }
+
+class P25Spec extends FlatSpec with Matchers {
+  "randomPermute" should "generate a random permutation of the elements of a list" in {
+    val data = List('a, 'b, 'c, 'd, 'e, 'f)
+    val r = randomPermute(data)
+
+    r.length should be (data.length)
+    r.sortBy(_.toString) should be (data.sortBy(_.toString))
+  }
+}

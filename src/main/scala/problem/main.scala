@@ -298,21 +298,13 @@ object Main {
   import scala.util.Random
   import scala.collection.mutable.ListBuffer
   def randomSelect[A](n: Int, ls: List[A]): List[A] = {
-    val r = new Random
-    val len = ls.length - 1
-    val b = new ListBuffer[A]
-    var l = ls
-
-    (len to len-n+1 by -1) map { l => r.nextInt(l) } foreach { i =>
-      removeAt(i, l) match {
-        case (rest, e) => {
-          b += e
-          l = rest
-        }
+    def randomSelectR(n: Int, ls: List[A], r: util.Random): List[A] =
+      if (n <= 0) Nil
+      else {
+        val (rest, e) = removeAt(r.nextInt(ls.length), ls)
+        e :: randomSelectR(n - 1, rest, r)
       }
-    }
-
-    b.toList
+    randomSelectR(n, ls, new util.Random)
   }
 
   // P24 (*) Lotto: Draw N different random numbers from the set 1..M.
@@ -329,6 +321,9 @@ object Main {
   // Example:
   // scala> randomPermute(List('a, 'b, 'c, 'd, 'e, 'f))
   // res0: List[Symbol] = List('b, 'a, 'd, 'c, 'e, 'f)
+  def randomPermute[A](ls: List[A]): List[A] = {
+    randomSelect(ls.length, ls)
+  }
 
   // P26 (**) Generate the combinations of K distinct objects chosen from the N elements of a list.
   // In how many ways can a committee of 3 be chosen from a group of 12 people? We all know that there are C(12,3) = 220 possibilities (C(N,K) denotes the well-known binomial coefficient). For pure mathematicians, this result may be great. But we want to really generate all the possibilities.
