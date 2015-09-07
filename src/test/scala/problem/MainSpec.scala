@@ -154,3 +154,38 @@ class P20Spec extends FlatSpec with Matchers {
     removeAt_answer(2, List('a, 'b, 'c, 'd)) should be (List('a, 'b, 'd), 'c)
   }
 }
+
+class P21Spec extends FlatSpec with Matchers {
+  "insertAt" should "insert an element at a given position into a list" in {
+    insertAt('new, 1, List('a, 'b, 'c, 'd)) should be (List('a, 'new, 'b, 'c, 'd))
+    insertAt_answer('new, 1, List('a, 'b, 'c, 'd)) should be (List('a, 'new, 'b, 'c, 'd))
+  }
+}
+
+class P22Spec extends FlatSpec with Matchers {
+  "range" should "create a list containing all integers within a given range" in {
+    range(4, 9) should be (List(4, 5, 6, 7, 8, 9))
+  }
+}
+
+class P23Spec extends FlatSpec with Matchers {
+  "randomSelect" should "extract a given number of randomly selected elements from a list" in {
+    val data = List('a, 'b, 'c, 'd, 'f, 'g, 'h)
+    val r = randomSelect(3, data)
+
+    r.length should be (3)
+    r foreach { e => data.contains(e) should be (true) }
+  }
+}
+
+class P24Spec extends FlatSpec with Matchers {
+  "randomSelect" should "extract a given number of randomly selected elements from a list" in {
+    val r = lotto(6, 49)
+    //should be (List(23, 1, 17, 33, 21, 37))
+    r.length should be (6)
+    r foreach { e =>
+      e should be >= 1
+      e should be <= 49
+    }
+  }
+}
