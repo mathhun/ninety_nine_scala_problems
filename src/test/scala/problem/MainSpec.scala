@@ -200,3 +200,10 @@ class P25Spec extends FlatSpec with Matchers {
     r.sortBy(_.toString) should be (data.sortBy(_.toString))
   }
 }
+
+class P26Spec extends FlatSpec with Matchers {
+  "combinations" should "generate the combinations of K distinct objects chosen from the N elements of a list" in {
+    val expected = List(List('a, 'b), List('a, 'c), List('b, 'c))
+    combinations(2, List('a, 'b, 'c)) should be (expected)
+  }
+}
