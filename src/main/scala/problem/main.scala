@@ -334,7 +334,7 @@ object Main {
   // Example:
   // scala> combinations(3, List('a, 'b, 'c, 'd, 'e, 'f))
   // res0: List[List[Symbol]] = List(List('a, 'b, 'c), List('a, 'b, 'd), List('a, 'b, 'e), ...
-  def flatMapSublists[A, B](ls: List[A])(f: (List[A]) => List[B]): List[B] =
+  def flatMapSublists[A, B](ls: List[A])(f: List[A] => List[B]): List[B] =
     ls match {
       case Nil => Nil
       case sublist@(_ :: tail) => f(sublist) ::: flatMapSublists(tail)(f)
@@ -347,31 +347,53 @@ object Main {
     }
 
   // P27 (**) Group the elements of a set into disjoint subsets.
-  // a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? Write a function that generates all the possibilities.
-  // Example:
-  // scala> group3(List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
-  // res0: List[List[List[String]]] = List(List(List(Aldo, Beat), List(Carla, David, Evi), List(Flip, Gary, Hugo, Ida)), ...
-  // b) Generalize the above predicate in a way that we can specify a list of group sizes and the predicate will return a list of groups.
-  // Example:
-  // scala> group(List(2, 2, 5), List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
-  // res0: List[List[List[String]]] = List(List(List(Aldo, Beat), List(Carla, David), List(Evi, Flip, Gary, Hugo, Ida)), ...
-  // Note that we do not want permutations of the group members; i.e. ((Aldo, Beat), ...) is the same solution as ((Beat, Aldo), ...). However, we make a difference between ((Aldo, Beat), (Carla, David), ...) and ((Carla, David), (Aldo, Beat), ...).
-  // 
-  // You may find more about this combinatorial problem in a good book on discrete mathematics under the term "multinomial coefficients".
+  // a) In how many ways can a group of 9 people work in 3 disjoint
+  // subgroups of 2, 3 and 4 persons? Write a function that generates
+  // all the possibilities.
+  def group3[A](ls: List[A]): List[List[List[A]]] =
+    for {
+      a <- combinations(2, ls)
+      noA = ls diff a
+      b <- combinations(3, noA)
+    } yield List(a, b, noA diff b)
+
+  def group[A](ns: List[Int], ls: List[A]): List[List[List[A]]] = ns match {
+    case Nil => List(Nil)
+    case n :: ns => combinations(n, ls) flatMap { c =>
+      group(ns, ls diff c) map { c :: _ }
+    }
+  }
 
   // P28 (**) Sorting a list of lists according to length of sublists.
-  // a) We suppose that a list contains elements that are lists themselves. The objective is to sort the elements of the list according to their length. E.g. short lists first, longer lists later, or vice versa.
+  //
+  // a) We suppose that a list contains elements that are lists
+  // themselves. The objective is to sort the elements of the list
+  // according to their length. E.g. short lists first, longer lists
+  // later, or vice versa.
   // Example:
-  // 
-  // scala> lsort(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)))
-  // res0: List[List[Symbol]] = List(List('o), List('d, 'e), List('d, 'e), List('m, 'n), List('a, 'b, 'c), List('f, 'g, 'h), List('i, 'j, 'k, 'l))
-  // b) Again, we suppose that a list contains elements that are lists themselves. But this time the objective is to sort the elements according to their length frequency; i.e. in the default, sorting is done ascendingly, lists with rare lengths are placed, others with a more frequent length come later.
-  // 
-  // Example:
-  // 
-  // scala> lsortFreq(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)))
-  // res1: List[List[Symbol]] = List(List('i, 'j, 'k, 'l), List('o), List('a, 'b, 'c), List('f, 'g, 'h), List('d, 'e), List('d, 'e), List('m, 'n))
-  // Note that in the above example, the first two lists in the result have length 4 and 1 and both lengths appear just once. The third and fourth lists have length 3 and there are two list of this length. Finally, the last three lists have length 2. This is the most frequent length.
+  // scala> lsort(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g,
+  // 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)))
+  // res0: List[List[Symbol]] = List(List('o), List('d, 'e), List('d,
+  // 'e), List('m, 'n), List('a, 'b, 'c), List('f, 'g, 'h), List('i,
+  // 'j, 'k, 'l))
+  //
+  // b) Again, we suppose that a list contains elements that are lists
+  // themselves. But this time the objective is to sort the elements
+  // according to their length frequency; i.e. in the default, sorting
+  // is done ascendingly, lists with rare lengths are placed, others
+  // with a more frequent length come later.
+  //
+  // Note that in the above example, the first two lists in the result
+  // have length 4 and 1 and both lengths appear just once. The third
+  // and fourth lists have length 3 and there are two list of this
+  // length. Finally, the last three lists have length 2. This is the
+  // most frequent length.
 
+  def lsort[A](ls: List[List[A]]): List[List[A]] =
+    ls sortWith { _.length < _.length }
 
+  def lsortFreq[A](ls: List[List[A]]): List[List[A]] = {
+    val freqs = Map(encode(ls map { _.length } sortWith { _ < _ }) map { _.swap }:_*)
+    ls sortWith { (e1, e2) => freqs(e1.length) < freqs(e2.length) }
+  }
 }

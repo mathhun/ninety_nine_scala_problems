@@ -207,3 +207,41 @@ class P26Spec extends FlatSpec with Matchers {
     combinations(2, List('a, 'b, 'c)) should be (expected)
   }
 }
+
+class P27Spec extends FlatSpec with Matchers {
+  "group" should "" in {
+    group(List(1,2), List(1,2,3)) should be (List(
+      List(List(1), List(2, 3)),
+      List(List(2), List(1, 3)),
+      List(List(3), List(1, 2)))
+    )
+
+    group(List(2,2), List(1,2,3,4)) should be (List(
+      List(List(1, 2), List(3, 4)),
+      List(List(1, 3), List(2, 4)),
+      List(List(1, 4), List(2, 3)),
+      List(List(2, 3), List(1, 4)),
+      List(List(2, 4), List(1, 3)),
+      List(List(3, 4), List(1, 2)))
+    )
+  }
+}
+
+class P28Spec extends FlatSpec with Matchers {
+  val data = List(
+    List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)
+  )
+
+  "lsort" should "" in {
+    lsort(data) should be (List(
+      List('o), List('d, 'e), List('d, 'e), List('m, 'n),
+      List('a, 'b, 'c), List('f, 'g, 'h), List('i, 'j, 'k, 'l))
+    )
+  }
+
+  "lsortFreq" should "" in {
+    lsortFreq(data) should be (List(
+      List('i, 'j, 'k, 'l), List('o), List('a, 'b, 'c), List('f, 'g, 'h), List('d, 'e), List('d, 'e), List('m, 'n))
+    )
+  }
+}
