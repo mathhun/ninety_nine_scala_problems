@@ -245,3 +245,18 @@ class P28Spec extends FlatSpec with Matchers {
     )
   }
 }
+
+import problem.arithmetic.S99Int
+import problem.arithmetic.S99Int._
+
+class P31Spec extends FlatSpec with Matchers {
+  "isPrime" should "determine whether a given integer number is prime" in {
+    List(2, 3, 5, 7, 11, 13, 17, 19).foreach(p =>
+      p.isPrime should be (true)
+    )
+
+    List(4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20).foreach(n =>
+      n.isPrime should be (false)
+    )
+  }
+}

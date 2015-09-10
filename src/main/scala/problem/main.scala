@@ -397,3 +397,19 @@ object Main {
     ls sortWith { (e1, e2) => freqs(e1.length) < freqs(e2.length) }
   }
 }
+
+package arithmetic {
+  class S99Int(val start: Int) {
+    import S99Int._
+
+    def isPrime: Boolean = {
+      if (start == 2) true
+      else if (start % 2 == 0) false
+      else !(3 to Math.sqrt(start).toInt).exists(start % _ == 0)
+    }
+  }
+
+  object S99Int {
+    implicit def int2S99Int(i: Int): S99Int = new S99Int(i)
+  }
+}
