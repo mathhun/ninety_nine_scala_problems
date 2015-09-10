@@ -405,11 +405,38 @@ package arithmetic {
     def isPrime: Boolean = {
       if (start == 2) true
       else if (start % 2 == 0) false
-      else !(3 to Math.sqrt(start).toInt).exists(start % _ == 0)
+      else (3 to Math.sqrt(start).toInt).forall(start % _ != 0)
+    }
+
+    def isPrime_answer: Boolean =
+      (start > 1) && (primes takeWhile { _ <= Math.sqrt(start) } forall { start % _ != 0 })
+
+    def isCoprimeTo(n: Int): Boolean = gcd(start, n) == 1
+
+    def totient: Int = (1 to start) filter { start.isCoprimeTo(_) } length
+
+    def primeFactors: List[Int] = {
+      def primeFactorsR(n: Int, ps: Stream[Int]): List[Int] =
+        if (n.isPrime) List(n)
+        else if (n % ps.head == 0) ps.head :: primeFactorsR(n / ps.head, ps)
+        else primeFactorsR(n, ps.tail)
+      primeFactorsR(start, primes)
     }
   }
 
   object S99Int {
     implicit def int2S99Int(i: Int): S99Int = new S99Int(i)
+
+    val primes = Stream.cons(2, Stream.from(3, 2) filter { _.isPrime_answer })
+
+    def gcd(m: Int, n: Int): Int = {
+      val h = Math.max(m, n)
+      val l = Math.min(m, n)
+      val r = h % l
+
+      if (r == 0) l else gcd(l, r)
+    }
+
+    def gcd_answer(m: Int, n: Int): Int = if (n == 0) m else gcd(n, m % n)
   }
 }

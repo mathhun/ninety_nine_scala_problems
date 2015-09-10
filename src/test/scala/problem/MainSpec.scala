@@ -251,12 +251,44 @@ import problem.arithmetic.S99Int._
 
 class P31Spec extends FlatSpec with Matchers {
   "isPrime" should "determine whether a given integer number is prime" in {
-    List(2, 3, 5, 7, 11, 13, 17, 19).foreach(p =>
+    List(2, 3, 5, 7, 11, 13, 17, 19).foreach(p => {
       p.isPrime should be (true)
-    )
+      p.isPrime_answer should be (true)
+    })
 
-    List(4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20).foreach(n =>
+    List(4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20).foreach(n => {
       n.isPrime should be (false)
-    )
+      n.isPrime_answer should be (false)
+    })
+  }
+}
+
+class P32Spec extends FlatSpec with Matchers {
+  "gcd" should "determine the greatest common divisor of two positive integer numbers" in {
+    gcd(36, 63) should be (9)
+    gcd(63, 36) should be (9)
+
+    gcd_answer(36, 63) should be (9)
+    gcd_answer(63, 36) should be (9)
+  }
+}
+
+class P33Spec extends FlatSpec with Matchers {
+  "isCoprimeTo" should "determine whether two positive integer numbers are coprime" in {
+    35.isCoprimeTo(64) should be (true)
+  }
+}
+
+class P34Spec extends FlatSpec with Matchers {
+  "totient" should "Calculate Euler's totient function phi(m)." in {
+    List((2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4), (9, 6), (10, 4)) foreach { case (m, n) =>
+      m.totient should be (n)
+    }
+  }
+}
+
+class P35Spec extends FlatSpec with Matchers {
+  "primeFactors" should "determine the prime factors of a given positive integer" in {
+    315.primeFactors should be (List(3, 3, 5, 7))
   }
 }
