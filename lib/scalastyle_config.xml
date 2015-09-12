@@ -1,0 +1,12 @@
+<scalastyle commentFilter="enabled">
+ <name>Scalastyle standard configuration</name>
+ <check level="warning" class="org.scalastyle.file.FileTabChecker" enabled="true" />
+ <check level="warning" class="org.scalastyle.file.FileLengthChecker" enabled="true">
+  <parameters>
+   <parameter name="maxFileLength">800</parameter>
+  </parameters>
+ </check>
+ <check enabled="true" class="org.scalastyle.scalariform.ForBraceChecker" level="warning"/>
+</scalastyle>
+
+<!-- http://www.scalastyle.org/rules-0.5.0.html -->

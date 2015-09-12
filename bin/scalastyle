@@ -1,0 +1,2 @@
+#/bin/sh
+java -jar lib/scalastyle_2.11-0.6.0-batch.jar --config lib/scalastyle_config.xml "$@"
