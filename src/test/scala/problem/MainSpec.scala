@@ -290,5 +290,13 @@ class P34Spec extends FlatSpec with Matchers {
 class P35Spec extends FlatSpec with Matchers {
   "primeFactors" should "determine the prime factors of a given positive integer" in {
     315.primeFactors should be (List(3, 3, 5, 7))
+    315.primeFactors2 should be (List(3, 3, 5, 7)) // using primeFactorMultiplicity
+  }
+}
+
+class P36Spec extends FlatSpec with Matchers {
+  "primeFactorMultiplicity" should "determine the prime factors of a given positive integer (2)" in {
+    315.primeFactorMultiplicity should be (Map(3 -> 2, 5 -> 1, 7 -> 1))
+    315.primeFactorMultiplicity_answer should be (Map(3 -> 2, 5 -> 1, 7 -> 1))
   }
 }

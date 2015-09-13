@@ -422,6 +422,34 @@ package arithmetic {
         else primeFactorsR(n, ps.tail)
       primeFactorsR(start, primes)
     }
+
+    def primeFactorMultiplicity: Map[Int, Int] = {
+      def inc(m: Map[Int, Int], p: Int): Map[Int, Int] =
+        m + (p -> (1 + m.getOrElse(p, 0)))
+      def primeFactorsR(n: Int, ps: Stream[Int], m: Map[Int, Int]): Map[Int, Int] =
+        if (n.isPrime) inc(m, n)
+        else if (n % ps.head == 0) primeFactorsR(n / ps.head, ps, inc(m, ps.head))
+        else primeFactorsR(n, ps.tail, m)
+      primeFactorsR(start, primes, Map.empty[Int, Int])
+    }
+
+    def primeFactorMultiplicity_answer: Map[Int,Int] = {
+      def factorCount(n: Int, p: Int): (Int, Int) =
+        if (n % p != 0) (0, n)
+        else factorCount(n / p, p) match { case (c, d) => (c + 1, d) }
+      def factorsR(n: Int, ps: Stream[Int]): Map[Int, Int] =
+        if (n == 1) Map()
+        else if (n.isPrime) Map(n -> 1)
+        else {
+          val nps = ps.dropWhile(n % _ != 0)
+          val (count, dividend) = factorCount(n, nps.head)
+          Map(nps.head -> count) ++ factorsR(dividend, nps.tail)
+        }
+      factorsR(start, primes)
+    }
+
+    def primeFactors2: List[Int] =
+      start.primeFactorMultiplicity flatMap { v => List.fill(v._2)(v._1) } toList
   }
 
   object S99Int {
