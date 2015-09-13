@@ -300,3 +300,11 @@ class P36Spec extends FlatSpec with Matchers {
     315.primeFactorMultiplicity_answer should be (Map(3 -> 2, 5 -> 1, 7 -> 1))
   }
 }
+
+class P37Spec extends FlatSpec with Matchers {
+  "totient" should "Calculate Euler's totient function phi(m)." in {
+    List((2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4), (9, 6), (10, 4)) foreach { case (m, n) =>
+      m.totient2 should be (n)
+    }
+  }
+}

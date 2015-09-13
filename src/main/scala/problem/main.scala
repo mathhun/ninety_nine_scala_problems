@@ -450,6 +450,14 @@ package arithmetic {
 
     def primeFactors2: List[Int] =
       start.primeFactorMultiplicity flatMap { v => List.fill(v._2)(v._1) } toList
+
+    def totient2: Int =
+      start.primeFactorMultiplicity.foldLeft(1)((acc, z) => acc * (z._1 - 1) * Math.pow(z._1, (z._2 - 1)).toInt)
+
+    def totient2_answer: Int =
+      start.primeFactorMultiplicity.foldLeft(1) { (r, f) =>
+        f match { case (p, m) => r * (p - 1) * Math.pow(p, m - 1).toInt }
+      }
   }
 
   object S99Int {
