@@ -308,3 +308,39 @@ class P37Spec extends FlatSpec with Matchers {
     }
   }
 }
+
+class P38Spec extends FlatSpec with Matchers {
+  //"it" should "Compare the two methods of calculating Euler's totient function." in {
+  //  val start1 = System.nanoTime
+  //  val res1 = 10090.totient
+  //  val end1 = System.nanoTime
+  //  val time1 = (end1 - start1).toDouble / 1000.0
+  //  println(s"Result: ${res1}  Time:${time1} msec")
+  //
+  //  val start2 = System.nanoTime
+  //  val res2 = 10090.totient2
+  //  val end2 = System.nanoTime
+  //  val time2 = (end2 - start2).toDouble / 1000.0
+  //  println(s"Result: ${res2}  Time:${time2} msec")
+  //}
+
+  it should "benchmark totient" in {
+    def time[A](label: String)(block: => A): A = {
+      val start = System.nanoTime
+      val ret = block
+      val end = System.nanoTime
+      println(label + ": " + ((end - start).toFloat / 1000) + " ms.")
+      ret
+    }
+
+    def test(n: Int) {
+      time("Preload primes") {
+        primes takeWhile { _ <= Math.sqrt(n) } force
+      }
+      time("P34 (" + n + ")") { n.totient }
+      time("P37 (" + n + ")") { n.totient2 }
+    }
+
+    test(10090)
+  }
+}
