@@ -474,5 +474,9 @@ package arithmetic {
     }
 
     def gcd_answer(m: Int, n: Int): Int = if (n == 0) m else gcd(n, m % n)
+
+    def listPrimesinRange(range: Range): List[Int] = {
+      primes filter { p => range.min <= p && p <= range.max } toList
+    }
   }
 }

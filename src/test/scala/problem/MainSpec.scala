@@ -344,3 +344,9 @@ class P38Spec extends FlatSpec with Matchers {
     test(10090)
   }
 }
+
+class P39Spec extends FlatSpec with Matchers {
+  "listPrimesinRange" should "a list of prime numbers" in {
+    listPrimesinRange(7 to 31) should be (List(7, 11, 13, 17, 19, 23, 29, 31))
+  }
+}
