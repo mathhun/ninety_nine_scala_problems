@@ -500,16 +500,12 @@ package arithmetic {
     }
 
     // P41 (**) A list of Goldbach compositions.
-    //????????????????????
     def goldbachList(r: Range, lowlimit: Int = 0): Seq[(Int, (Int, Int))] = {
-      val even = r filter { n => n > 2 && n % 2 == 0 }
-      val ret = even map {
+      r filter { n => n > 2 && n % 2 == 0 } map {
         e => (e, e.goldbach)
       } filter { x =>
         x._2._1 > lowlimit
       }
-      ret
     }
-    //????????????????????
   }
 }
