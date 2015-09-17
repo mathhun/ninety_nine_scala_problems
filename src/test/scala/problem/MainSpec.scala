@@ -350,3 +350,23 @@ class P39Spec extends FlatSpec with Matchers {
     listPrimesinRange(7 to 31) should be (List(7, 11, 13, 17, 19, 23, 29, 31))
   }
 }
+
+class P40Spec extends FlatSpec with Matchers {
+  "goldbach" should "Goldbach's conjecture." in {
+    28.goldbach should be (5, 23)
+  }
+}
+
+class P41Spec extends FlatSpec with Matchers {
+  "goldbachList" should "Goldbach's conjecture." in {
+    goldbachList(9 to 20) should be (Seq(
+      (10, (3, 7)), (12, (5, 7)), (14, (3, 11)), (16, (3, 13)), (18, (5, 13)), (20, (3, 17))
+    ))
+
+    //????????????????????
+    goldbachList(1 to 2000, 50) should be (Seq(
+      (992, (73, 919)), (1382, (61, 1321)), (1856, (67, 1789)), (1928, (61, 1867))
+    ))
+    //????????????????????
+  }
+}

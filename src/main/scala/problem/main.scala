@@ -458,6 +458,26 @@ package arithmetic {
       start.primeFactorMultiplicity.foldLeft(1) { (r, f) =>
         f match { case (p, m) => r * (p - 1) * Math.pow(p, m - 1).toInt }
       }
+
+    //P40 (**) Goldbach's conjecture.
+    // Goldbach's conjecture says that every positive even number
+    // greater than 2 is the sum of two prime numbers. E.g. 28 = 5 +
+    // 23. It is one of the most famous facts in number theory that
+    // has not been proved to be correct in the general case. It has
+    // been numerically confirmed up to very large numbers (much
+    // larger than Scala's Int can represent). Write a function to
+    // find the two prime numbers that sum up to a given even integer.
+    // scala> 28.goldbach
+    // res0: (Int, Int) = (5,23)
+    def goldbach: (Int, Int) = {
+      start.goldbachs.head
+    }
+
+    def goldbachs: List[(Int, Int)] = {
+      val ps = primes takeWhile { _ < start }
+      val pair = ps map { p => (p, start - p) } filter { case (p, n) => ps.contains(n) }
+      pair.toList
+    }
   }
 
   object S99Int {
@@ -478,5 +498,18 @@ package arithmetic {
     def listPrimesinRange(range: Range): List[Int] = {
       primes filter { p => range.min <= p && p <= range.max } toList
     }
+
+    // P41 (**) A list of Goldbach compositions.
+    //????????????????????
+    def goldbachList(r: Range, lowlimit: Int = 0): Seq[(Int, (Int, Int))] = {
+      val even = r filter { n => n > 2 && n % 2 == 0 }
+      val ret = even map {
+        e => (e, e.goldbach)
+      } filter { x =>
+        x._2._1 > lowlimit
+      }
+      ret
+    }
+    //????????????????????
   }
 }
