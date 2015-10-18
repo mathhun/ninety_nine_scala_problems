@@ -21,3 +21,9 @@ class P47Spec extends FlatSpec with Matchers {
     (false and false) should be (false)
   }
 }
+
+class P49Spec extends FlatSpec with Matchers {
+  "gray" should "generate an n-bit Gray code" in {
+    gray(3) should be (List("000", "001", "011", "010", "110", "111", "101", "100"))
+  }
+}
