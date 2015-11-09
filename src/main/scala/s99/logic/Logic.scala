@@ -1,4 +1,4 @@
-package s99
+package s99.logic
 
 object Logic {
   def and(a: Boolean, b: Boolean): Boolean = a && b

@@ -1,7 +1,7 @@
-package s99
+package s99.tree
 
-import s99.Tree._
 import org.scalatest._
+import s99.tree.Tree._
 
 class P55Spec extends FlatSpec with Matchers {
   "cBalanced(1)" should "construct completely balanced binary trees" in {

@@ -1,8 +1,8 @@
-package s99
+package s99.logic
 
 import org.scalatest._
-import s99.Logic._
-import s99.Logic.S99Logic._
+import s99.logic.Logic._
+import s99.logic.Logic.S99Logic._
 
 class P46Spec extends FlatSpec with Matchers {
   "xor" should "" in {
