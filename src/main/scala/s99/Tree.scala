@@ -1,4 +1,4 @@
-package problem.tree
+package s99
 
 sealed abstract class Tree[+T]
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {

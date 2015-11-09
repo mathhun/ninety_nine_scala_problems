@@ -1,6 +1,6 @@
-package spec.tree
+package s99
 
-import problem.tree._
+import s99.Tree._
 import org.scalatest._
 
 class P55Spec extends FlatSpec with Matchers {
