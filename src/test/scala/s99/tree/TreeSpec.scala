@@ -29,3 +29,23 @@ class P55Spec extends FlatSpec with Matchers {
     ))
   }
 }
+
+class P56Spec extends FunSpec with Matchers {
+  describe("isSymmetric") {
+    describe("when empty") {
+      it("should be true") {
+        Node().isSymmetric should be (true)
+      }
+    }
+    describe("when trees are symmetric") {
+      it("should be true") {
+        Node('a', Node('b'), Node('c')).isSymmetric should be (true)
+      }
+    }
+    describe("when trees are not symmetric") {
+      it("should be false") {
+        Node('a', Node('b'), End).isSymmetric should be (false)
+      }
+    }
+  }
+}
