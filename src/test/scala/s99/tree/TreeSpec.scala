@@ -45,14 +45,16 @@ class P56Spec extends FunSpec with Matchers {
         (Node('a', Node('b'), Node('c')), true),
         (Node('a',
           Node('b', Node('d', Node('e'), End)),
-          Node('c', Node('f', Node('g'), End))), true),
+          Node('c', Node('f', End, Node('g')))), true),
+        (Node('a',
+          Node('b', Node('d'), End),
+          Node('c', End, Node('e'))), true),
 
         // false
         (Node('a', Node('b'), End), false),
         (Node('a', End, Node('b')), false),
-        (Node('a',
-          Node('b', Node('d'), End),
-          Node('c', End, Node('e'))), false)
+
+        (End, true)
       )
       forAll (cases) { (tree, expected) =>
         tree.isSymmetric should be (expected)
