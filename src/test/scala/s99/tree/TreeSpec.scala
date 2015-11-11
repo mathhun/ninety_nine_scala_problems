@@ -62,3 +62,15 @@ class P56Spec extends FunSpec with Matchers {
     }
   }
 }
+
+class P57Spec extends FunSpec with Matchers {
+  it("should add an element to a binary search tree") {
+    val r0 = End.addValue(2)
+    val r1 = r0.addValue(3)
+    val r2 = r1.addValue(0)
+
+    r0 should be (Node(2))
+    r1 should be (Node(2, End, Node(3)))
+    r2 should be (Node(2, Node(0), Node(3)))
+  }
+}

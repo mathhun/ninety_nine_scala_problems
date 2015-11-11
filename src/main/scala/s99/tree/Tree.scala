@@ -14,6 +14,8 @@ sealed abstract class Tree[+T] {
   //}
   def isMirrorOf[V](tree: Tree[V]): Boolean
   def isSymmetric: Boolean
+
+  def addValue[U >: T <% Ordered[U]](x: U): Tree[U]
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
@@ -23,12 +25,23 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
   }
   def isSymmetric: Boolean = left.isMirrorOf(right)
 
+  //def addValue[U >: T <% Ordered[U]](x: U): Tree[U] = this match {
+  //  case Node(e, l, r) if (x < e) => Node(e, l.addValue(x), r)
+  //  case Node(e, l, r) => Node(e, l, r.addValue(x))
+  //}
+  def addValue[U >: T <% Ordered[U]](x: U): Tree[U] =
+    if (x < value) Node(value, left.addValue(x), right)
+    else Node(value, left, right.addValue(x))
+
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
 case object End extends Tree[Nothing] {
   def isMirrorOf[V](tree: Tree[V]): Boolean = tree == End
   def isSymmetric: Boolean = true
+
+  def addValue[U <% Ordered[U]](x: U): Tree[U] = Node(x)
+
   override def toString = "."
 }
 
