@@ -62,4 +62,19 @@ object Tree {
       lesserSubtrees.flatMap(l => greaterSubtrees.flatMap(g => List(Node(value, l, g), Node(value, g, l))))
     }
   }
+
+  def symmetricBalancedTrees[T](nodes: Int, value: T): List[Tree[T]] = {
+    cBalanced(nodes, value).filter(_.isSymmetric)
+  }
+
+  def hbalTrees[T](height: Int, value: T): List[Tree[T]] = height match {
+    case h if h < 1 => List(End)
+    case 1 => List(Node(value))
+    case _ => {
+      val fullHeight = hbalTrees(height - 1, value)
+      val short = hbalTrees(height - 2, value)
+      fullHeight.flatMap((l) => fullHeight.map((r) => Node(value, l, r))) :::
+      fullHeight.flatMap((f) => short.flatMap((s) => List(Node(value, f, s), Node(value, s, f))))
+    }
+  }
 }

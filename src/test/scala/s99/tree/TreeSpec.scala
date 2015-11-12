@@ -74,3 +74,35 @@ class P57Spec extends FunSpec with Matchers {
     r2 should be (Node(2, Node(0), Node(3)))
   }
 }
+
+class P58Spec extends FunSpec with Matchers {
+  it("Generate-and-test paradigm") {
+    Tree.symmetricBalancedTrees(5, "x") should be (
+      List(
+        Node("x", Node("x", End, Node("x")), Node("x", Node("x"), End)),
+        Node("x", Node("x", Node("x"), End), Node("x", End, Node("x")))
+      )
+    )
+  }
+}
+
+class P59Spec extends FunSpec with Matchers {
+  describe("should construct height-balanced binary trees") {
+    it("height 1") {
+      Tree.hbalTrees(1, "x") should be (List(
+        Node("x")
+      ))
+    }
+    it("height 2") {
+      Tree.hbalTrees(2, "x") should be (List(
+        Node("x", Node("x"), Node("x")),
+        Node("x", Node("x"), End),
+        Node("x", End, Node("x"))
+      ))
+    }
+    //Tree.hbalTrees(3, "x") should be (List(
+    //  Node("x", Node("x", Node("x"), Node("x")), Node("x", Node("x"), Node("x"))),
+    //  Node("x", Node("x", Node("x"), Node("x")), Node("x", Node("x"), End))
+    //))
+  }
+}
