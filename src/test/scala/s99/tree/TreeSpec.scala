@@ -106,3 +106,25 @@ class P59Spec extends FunSpec with Matchers {
     //))
   }
 }
+
+class P60Spec extends FunSpec with Matchers {
+  it("should construct height-balanced binary trees with a given number of nodes.") {
+    pending
+  }
+}
+
+class P61Spec extends FunSpec with Matchers {
+  it("should count the leaves of a binary tree") {
+    val cases = Table(
+      ("Tree", "ExpectedValue"),
+
+      (Node('x', Node('x'), End), 1),
+      (Node('x', Node('x'), Node('x')), 2),
+      (Node('x', Node('x', Node('x', Node('x'))), Node('x')), 2)
+    )
+
+    forAll (cases) { (tree, expected) =>
+      tree.leafCount should be (expected)
+    }
+  }
+}
