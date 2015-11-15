@@ -21,6 +21,8 @@ sealed abstract class Tree[+T] {
 
   def leafList[U >: T]: List[U]
 
+  def internalList: List[T]
+
   def atLevel[U >: T](n: Int): List[U]
 }
 
@@ -49,6 +51,11 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
     case _ => left.leafList ++ right.leafList
   }
 
+  def internalList: List[T] = (left, right) match {
+    case (End, End) => Nil
+    case _ => value :: left.internalList ::: right.internalList
+  }
+
   def atLevel[U >: T](n: Int): List[U] = {
     if (n == 1) List(value)
     else left.atLevel(n - 1) ++ right.atLevel(n - 1)
@@ -66,6 +73,8 @@ case object End extends Tree[Nothing] {
   def leafCount: Int = 0
 
   def leafList[U]: List[U] = Nil
+
+  def internalList = Nil
 
   def atLevel[U](n: Int): List[U] = Nil
 

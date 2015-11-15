@@ -138,8 +138,17 @@ class P61ASpec extends FunSpec with Matchers {
 
 class P62Spec extends FunSpec with Matchers {
   it("should collect the internal nodes of a binary tree in a list") {
-    pending
-    //Node('a', Node('b'), Node('c', Node('d'), Node('e'))).internalList
+    val cases = Table(
+      ("tree", "expected"),
+      (Node('a'), Nil),
+      (Node('a', Node('b'), Node('c', Node('d'), Node('e'))), List('a', 'c')),
+      (Node('a', Node('b', Node('c'), End), Node('d', Node('e'), End)), List('a', 'b', 'd')),
+      (End, Nil)
+    )
+
+    forAll (cases) { (tree, expected) =>
+      tree.internalList should be (expected)
+    }
   }
 }
 
