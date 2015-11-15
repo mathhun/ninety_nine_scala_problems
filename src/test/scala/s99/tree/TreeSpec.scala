@@ -117,7 +117,6 @@ class P61Spec extends FunSpec with Matchers {
   it("should count the leaves of a binary tree") {
     val cases = Table(
       ("Tree", "ExpectedValue"),
-
       (Node('x', Node('x'), End), 1),
       (Node('x', Node('x'), Node('x')), 2),
       (Node('x', Node('x', Node('x', Node('x'))), Node('x')), 2)
@@ -125,6 +124,35 @@ class P61Spec extends FunSpec with Matchers {
 
     forAll (cases) { (tree, expected) =>
       tree.leafCount should be (expected)
+    }
+  }
+}
+
+class P61ASpec extends FunSpec with Matchers {
+  it("should collect the leaves of a binary tree in a list") {
+    Node('a', Node('b'), Node('c', Node('d'), Node('e'))).leafList should be (
+      List('b', 'd', 'e')
+    )
+  }
+}
+
+class P62Spec extends FunSpec with Matchers {
+  it("should collect the internal nodes of a binary tree in a list") {
+    pending
+    //Node('a', Node('b'), Node('c', Node('d'), Node('e'))).internalList
+  }
+}
+
+class P62BSpec extends FunSpec with Matchers {
+  it("collect the nodes at a given level in a list") {
+    val cases = Table(
+      ("Tree" , "Level", "expected"),
+      (Node('a', Node('b'), Node('c', Node('d'), Node('e'))), 2, List('b', 'c')),
+      (Node('a', Node('b'), Node('c', Node('d'), Node('e'))), 3, List('d', 'e'))
+    )
+
+    forAll (cases) { (tree, level, expected) =>
+      tree.atLevel(level) should be (expected)
     }
   }
 }

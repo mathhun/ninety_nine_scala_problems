@@ -18,6 +18,10 @@ sealed abstract class Tree[+T] {
   def addValue[U >: T <% Ordered[U]](x: U): Tree[U]
 
   def leafCount: Int
+
+  def leafList[U >: T]: List[U]
+
+  def atLevel[U >: T](n: Int): List[U]
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
@@ -40,6 +44,16 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
     case _ => left.leafCount + right.leafCount
   }
 
+  def leafList[U >: T]: List[U] = (left, right) match {
+    case (End, End) => List(value)
+    case _ => left.leafList ++ right.leafList
+  }
+
+  def atLevel[U >: T](n: Int): List[U] = {
+    if (n == 1) List(value)
+    else left.atLevel(n - 1) ++ right.atLevel(n - 1)
+  }
+
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
@@ -50,6 +64,10 @@ case object End extends Tree[Nothing] {
   def addValue[U <% Ordered[U]](x: U): Tree[U] = Node(x)
 
   def leafCount: Int = 0
+
+  def leafList[U]: List[U] = Nil
+
+  def atLevel[U](n: Int): List[U] = Nil
 
   override def toString = "."
 }
