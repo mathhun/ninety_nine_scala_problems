@@ -24,6 +24,8 @@ sealed abstract class Tree[+T] {
   def internalList: List[T]
 
   def atLevel[U >: T](n: Int): List[U]
+
+  def nodeCount: Int
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
@@ -61,6 +63,8 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
     else left.atLevel(n - 1) ++ right.atLevel(n - 1)
   }
 
+  def nodeCount: Int = left.nodeCount + right.nodeCount + 1
+
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
@@ -77,6 +81,8 @@ case object End extends Tree[Nothing] {
   def internalList = Nil
 
   def atLevel[U](n: Int): List[U] = Nil
+
+  def nodeCount: Int = 0
 
   override def toString = "."
 }
@@ -113,4 +119,22 @@ object Tree {
       fullHeight.flatMap((f) => short.flatMap((s) => List(Node(value, f, s), Node(value, s, f))))
     }
   }
+
+  def minHbalNodes(height: Int): Int = height match {
+    case n if n < 1 => 0
+    case 1          => 1
+    case n          => minHbalNodes(n - 1) + minHbalNodes(n - 2) + 1
+  }
+
+  def maxHbalNodes(height: Int): Int = 2 * height - 1
+
+  def minHbalHeight(nodes: Int): Int =
+    if (nodes == 0) 0
+    else minHbalHeight(nodes / 2) + 1
+
+  def maxHbalHeight(nodes: Int): Int = 
+    Stream.from(1).takeWhile(minHbalNodes(_) <= nodes).last
+
+  def hbalTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] =
+    (minHbalHeight(nodes) to maxHbalHeight(nodes)).flatMap(hbalTrees(_, value)).filter(_.nodeCount == nodes).toList
 }
