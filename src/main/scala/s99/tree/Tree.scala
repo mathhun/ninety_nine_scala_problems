@@ -26,6 +26,9 @@ sealed abstract class Tree[+T] {
   def atLevel[U >: T](n: Int): List[U]
 
   def nodeCount: Int
+
+  def preorder: List[T]
+  def inorder: List[T]
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
@@ -65,7 +68,19 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 
   def nodeCount: Int = left.nodeCount + right.nodeCount + 1
 
-  override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
+  //override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
+  override def toString = (left, right) match {
+    //case (End, End) => value.toString
+    //case (End, _) => "%s(,%s)".format(value, right)
+    //case (_, End) => "%s(%s,)".format(value, left)
+    //case _ => "%s(%s,%s)".format(value, left, right)
+
+    case (End, End) => value.toString
+    case _ => value.toString + "(" + left + "," + right + ")"
+  }
+
+  def preorder: List[T] = value :: left.preorder ::: right.preorder
+  def inorder: List[T] = left.inorder ::: value :: right.inorder
 }
 
 case object End extends Tree[Nothing] {
@@ -84,7 +99,10 @@ case object End extends Tree[Nothing] {
 
   def nodeCount: Int = 0
 
-  override def toString = "."
+  override def toString = ""
+
+  def preorder = Nil
+  def inorder = Nil
 }
 
 object Node {
@@ -137,4 +155,50 @@ object Tree {
 
   def hbalTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] =
     (minHbalHeight(nodes) to maxHbalHeight(nodes)).flatMap(hbalTrees(_, value)).filter(_.nodeCount == nodes).toList
+
+  def completeBinaryTree[T](nodes: Int, value: T): Tree[T] = {
+    def go(n: Int): Tree[T] =
+      if (n <= nodes) Node(value, go(n * 2), go(n * 2 + 1))
+      else End
+    go(1)
+  }
+
+  def fromString(s: String): Tree[Char] = string2Tree(s)
+
+  def string2Tree(s: String): Tree[Char] = {
+    def extractTreeString(s: String, start: Int, end: Char): (String,Int) = {
+      def updateNesting(nesting: Int, pos: Int): Int = s(pos) match {
+        case '(' => nesting + 1
+        case ')' => nesting - 1
+        case _   => nesting
+      }
+      def findStringEnd(pos: Int, nesting: Int): Int =
+        if (s(pos) == end && nesting == 0) pos
+        else findStringEnd(pos + 1, updateNesting(nesting, pos))
+
+      val strEnd = findStringEnd(start, 0)
+      (s.substring(start, strEnd), strEnd)
+    }
+
+    s.length match {
+      case 0 => End
+      case 1 => Node(s(0))
+      case _ => {
+        val (leftStr, commaPos) = extractTreeString(s, 2, ',')
+        val (rightStr, _) = extractTreeString(s, commaPos + 1, ')')
+        Node(s(0), string2Tree(leftStr), string2Tree(rightStr))
+      }
+    }
+  }
+
+  def preInTree[T](pre: List[T], in: List[T]): Tree[T] = pre match {
+    case Nil       => End
+    case v :: preTail => {
+      val (leftIn, rightIn) = in.span(_ != v)
+      Node(v,
+        preInTree(preTail.take(leftIn.length), leftIn),
+        preInTree(preTail.drop(leftIn.length), rightIn)
+      )
+    }
+  }
 }

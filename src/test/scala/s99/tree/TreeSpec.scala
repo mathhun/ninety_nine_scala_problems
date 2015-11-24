@@ -189,3 +189,67 @@ class P62BSpec extends FunSpec with Matchers {
     }
   }
 }
+
+class P63Spec extends FunSpec with Matchers {
+  it("should construct a complete binary tree") {
+    val cases = Table(
+      ("nodes", "expected"),
+      (1, Node(1)),
+      (2, Node(1, Node(1), End)),
+      (3, Node(1, Node(1), Node(1))),
+      (4, Node(1, Node(1, Node(1), End), Node(1))),
+      (5, Node(1, Node(1, Node(1), Node(1)), Node(1))),
+      (6, Node(1, Node(1, Node(1), Node(1)), Node(1, Node(1), End))),
+      (7, Node(1, Node(1, Node(1), Node(1)), Node(1, Node(1), Node(1))))
+    )
+    forAll (cases) { (n, expected) =>
+      Tree.completeBinaryTree(n, 1) should be (expected)
+    }
+  }
+}
+
+class P67Spec extends FunSpec with Matchers {
+  describe("A string representation of binary trees") {
+    it("toString") {
+      val cases = Table(
+        ("tree", "expected"),
+        (Node('a', Node('b', Node('d'), Node('e')), Node('c', End, Node('f', Node('g'), End))), "a(b(d,e),c(,f(g,)))")
+      )
+      forAll (cases) { (tree, expected) =>
+        tree.toString should be (expected)
+      }
+    }
+    it("fromString") {
+      val cases = Table(
+        ("string", "expected"),
+        ("e", Node('e')),
+        ("a(b(d,e),c(,f(g,)))", Node('a', Node('b', Node('d'), Node('e')), Node('c', End, Node('f', Node('g'), End))))
+      )
+      forAll (cases) { (string, expected) =>
+        Tree.fromString(string) should be (expected)
+      }
+    }
+  }
+}
+
+class P68Spec extends FunSpec with Matchers {
+  describe("Preorder and inorder sequences of binary trees") {
+    it("preorder") {
+      Tree.string2Tree("a(b(d,e),c(,f(g,)))").preorder should be (List('a', 'b', 'd', 'e', 'c', 'f', 'g'))
+    }
+    it("inorder") {
+      Tree.string2Tree("a(b(d,e),c(,f(g,)))").inorder should be (List('d', 'b', 'e', 'a', 'c', 'g', 'f'))
+    }
+    it("preInTree") {
+      val cases = Table(
+        ("pre", "in", "expected"),
+        (List('a'), List('a'), "a"),
+        (List('a', 'b'), List('b', 'a'), "a(b,)"),
+        (List('a', 'b'), List('a', 'b'), "a(,b)")
+      )
+      forAll (cases) { (p, i, expected) =>
+        Tree.preInTree(p, i).toString should be (expected)
+      }
+    }
+  }
+}
