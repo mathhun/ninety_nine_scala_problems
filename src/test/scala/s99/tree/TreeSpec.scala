@@ -253,3 +253,12 @@ class P68Spec extends FunSpec with Matchers {
     }
   }
 }
+
+class P69Spec extends FunSpec with Matchers {
+  it("toDotstring") {
+    Tree.string2Tree("a(b(d,e),c(,f(g,)))").toDotstring should be ("abd..e..c.fg...")
+  }
+  it("fromDotString") {
+    Tree.fromDotstring("abd..e..c.fg...").toString should be ("a(b(d,e),c(,f(g,)))")
+  }
+}

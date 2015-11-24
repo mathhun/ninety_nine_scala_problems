@@ -29,6 +29,8 @@ sealed abstract class Tree[+T] {
 
   def preorder: List[T]
   def inorder: List[T]
+
+  def toDotstring: String
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
@@ -81,6 +83,9 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 
   def preorder: List[T] = value :: left.preorder ::: right.preorder
   def inorder: List[T] = left.inorder ::: value :: right.inorder
+
+  def toDotstring: String =
+    value.toString + left.toDotstring + right.toDotstring
 }
 
 case object End extends Tree[Nothing] {
@@ -103,6 +108,8 @@ case object End extends Tree[Nothing] {
 
   def preorder = Nil
   def inorder = Nil
+
+  def toDotstring: String = "."
 }
 
 object Node {
@@ -200,5 +207,17 @@ object Tree {
         preInTree(preTail.drop(leftIn.length), rightIn)
       )
     }
+  }
+
+  def fromDotstring(ds: String): Tree[Char] = {
+    def fromDotstringR(pos: Int): (Tree[Char], Int) = ds(pos) match {
+      case '.' => (End, pos + 1)
+        case c   => {
+          val (lTree, lPos) = fromDotstringR(pos + 1)
+          val (rTree, rPos) = fromDotstringR(lPos)
+          (Node(c, lTree, rTree), rPos)
+        }
+    }
+    fromDotstringR(0)._1
   }
 }
