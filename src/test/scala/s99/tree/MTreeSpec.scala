@@ -42,12 +42,47 @@ class P70Spec extends FunSpec with Matchers {
 }
 
 class P71Spec extends FunSpec with Matchers {
-  val mtree0 = MTree('a', List(
-    MTree('f', List(MTree('g'))), MTree('c'), MTree('b', List(MTree('d'), MTree('e'))))
-  )
-
   it("should determine the internal path length of a tree") {
     "afg^^c^bd^e^^^".internalPathLength should be (9)
     mtree0.internalPathLength should be (9)
+  }
+}
+
+class P72Spec extends FunSpec with Matchers {
+  it("Construct the postorder sequence of the tree nodes") {
+    "afg^^c^bd^e^^^".postorder should be (List('g', 'f', 'c', 'd', 'e', 'b', 'a'))
+  }
+}
+
+class P73Spec extends FunSpec with Matchers {
+  it("Lisp-like tree representation") {
+    val cases = Table(
+      ("tree", "expected"),
+
+      (MTree("a"), "a"),
+      // a
+      // |
+      // b
+      (MTree("a", List(MTree("b"))), "(a b)"),
+      // a
+      // |
+      // b
+      // |
+      // c
+      (MTree("a", List(MTree("b", List(MTree("c"))))), "(a (b c))"),
+      //   b
+      //  / \
+      // d   e
+      (MTree("b", List(MTree("d"), MTree("e"))), "(b d e)"),
+      //    a
+      //  / | \
+      // f  c  b
+      // |    / \
+      // g   d   e
+      (mtree0, "(a (f g) c (b d e))")
+    )
+    forAll (cases) { (tree, expected) =>
+      tree.lispyTree should be (expected)
+    }
   }
 }

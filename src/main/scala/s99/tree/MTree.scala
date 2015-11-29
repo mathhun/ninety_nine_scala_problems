@@ -19,6 +19,18 @@ class MTree[+T](val value: T, val children: List[MTree[T]]) {
 
   def internalPathLength: Int =
     children.foldLeft(0)((r, c) => r + c.nodeCount + c.internalPathLength)
+
+  // def postorder: List[T] = children match {
+  //   case Nil => List(value)
+  //   case cs => cs.flatMap(_.postorder) ::: List(value)
+  // }
+  def postorder: List[T] =
+    children.flatMap(_.postorder) ::: List(value)
+
+  def lispyTree: String = {
+    if (children.isEmpty) value.toString
+    else "(" + value + " " + children.map(_.lispyTree).mkString(" ") + ")"
+  }
 }
 
 object MTree {
