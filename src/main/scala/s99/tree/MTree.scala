@@ -11,12 +11,20 @@ class MTree[+T](val value: T, val children: List[MTree[T]]) {
     case that: MTree[T] => value == that.value && children == that.children
     case _ => false
   }
+
+  // def internalPathLength: Int = _internalPathLength(0)
+  // private def _internalPathLength(depth: Int = 0): Int = {
+  //   depth + children.map(_._internalPathLength(depth + 1)).sum
+  // }
+
+  def internalPathLength: Int =
+    children.foldLeft(0)((r, c) => r + c.nodeCount + c.internalPathLength)
 }
 
 object MTree {
   def apply[T](value: T, children: List[MTree[T]] = Nil) = new MTree(value, children)
 
-  implicit def string2MTree(s: String): MTree[Char] = {
+  implicit def stringToMTree(s: String): MTree[Char] = {
     def nextStrBound(pos: Int, nesting: Int): Int = {
       if (nesting == 0) pos
       else nextStrBound(pos + 1, if (s(pos) == '^') nesting - 1 else nesting + 1)
@@ -27,6 +35,6 @@ object MTree {
         val end = nextStrBound(pos + 1, 1)
         s.substring(pos, end - 1) :: splitChildStrings(end)
       }
-    MTree(s(0), splitChildStrings(1).map(string2MTree(_)))
+    MTree(s(0), splitChildStrings(1).map(stringToMTree(_)))
   }
 }
