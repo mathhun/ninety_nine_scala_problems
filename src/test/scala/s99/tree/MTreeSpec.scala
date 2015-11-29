@@ -4,15 +4,7 @@ import org.scalatest._
 import org.scalatest.prop.TableDrivenPropertyChecks._
 import s99.tree.MTree._
 
-class P70CSpec extends FunSpec with Matchers {
-  it("Count the nodes of a multiway tree") {
-    MTree('a', List(MTree('f'))).nodeCount should be (2)
-    MTree('a', List(MTree('a'), MTree('b'))).nodeCount should be (3)
-
-  }
-}
-
-class P70Spec extends FunSpec with Matchers {
+object V {
   //    a
   //  / | \
   // f  c  b
@@ -21,7 +13,17 @@ class P70Spec extends FunSpec with Matchers {
   val mtree0 = MTree('a', List(
     MTree('f', List(MTree('g'))), MTree('c'), MTree('b', List(MTree('d'), MTree('e'))))
   )
+}
+import V._
 
+class P70CSpec extends FunSpec with Matchers {
+  it("Count the nodes of a multiway tree") {
+    MTree('a', List(MTree('f'))).nodeCount should be (2)
+    MTree('a', List(MTree('a'), MTree('b'))).nodeCount should be (3)
+  }
+}
+
+class P70Spec extends FunSpec with Matchers {
   describe("Tree construction from a node string") {
     it("string2MTree") {
       MTree.stringToMTree("a") should be (MTree('a', Nil))
