@@ -97,6 +97,9 @@ object Graph extends GraphObjBase {
     }
     g
   }
+
+  def fromString[T, U](s: String): Graph[T, U] = {
+  }
 }
 
 object Digraph extends GraphObjBase {
