@@ -10,7 +10,7 @@ import s99.graph._
 //     |
 // d   k
 
-class P80CSpec extends FunSpec with Matchers {
+object V {
   // graph-term form
   val g0 = Graph.term(
     List('b', 'c', 'd', 'f', 'g', 'h', 'k'),
@@ -23,10 +23,6 @@ class P80CSpec extends FunSpec with Matchers {
     ('f', List('b', 'c', 'k')), ('g', List('h')), ('h', List('g')),
     ('k', List('f'))
   ))
-
-  it("g0 == g1") {
-    pending
-  }
 
   // human-readable form
   // [b-c, f-c, g-h, d, f-b, k-f, h-g]
@@ -59,11 +55,35 @@ class P80CSpec extends FunSpec with Matchers {
 
   // human-readable form
   // [p>q/9, m>q/7, k, p>m/5]
+}
+
+class P80CSpec extends FunSpec with Matchers {
+  import V._
+
+  it("g0 == g1") {
+    pending
+  }
 
   it("fromString") {
     pending
     // Graph.fromString("[b-c, f-c, g-h, d, f-b, k-f, h-g]").toTermForm should be (
     //   List(d, k, h, c, f, g, b),List((h,g,()), (k,f,()), (f,b,()), (g,h,()), (f,c,()), (b,c,()))
     // )
+  }
+}
+
+class P81CSpec extends FunSpec with Matchers {
+  import V._
+
+  it("Path from one node to another one") {
+    g4.findPaths('p', 'q') should be (List(List('p', 'q'), List('p', 'm', 'q')))
+  }
+}
+
+class P82CSpec extends FunSpec with Matchers {
+  import V._
+
+  it("Cycle from a given node") {
+    g1.findCycles('f') should be (List(List('f', 'c', 'b', 'f'), List('f', 'b', 'c', 'f')))
   }
 }
