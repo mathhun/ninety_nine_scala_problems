@@ -87,3 +87,11 @@ class P82CSpec extends FunSpec with Matchers {
     g1.findCycles('f') should be (List(List('f', 'c', 'b', 'f'), List('f', 'b', 'c', 'f')))
   }
 }
+
+class P83CSpec extends FunSpec with Matchers {
+  import V._
+
+  it("construct all spanning trees") {
+    pending
+  }
+}
